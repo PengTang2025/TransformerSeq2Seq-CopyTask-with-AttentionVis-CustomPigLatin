@@ -24,8 +24,11 @@ class TransformerSeq2SeqModel(nn.Module):
                  dim_feedforward=512, dropout=0.1, max_seq_len=20):
         super().__init__()
 
-        # # 为了方便后续提取注意力权重，我们保存最后一层 encoder 的注意力
-        self.last_attn = None 
+        # 保存最后一层encoder和最后一层decoder cross attention的权重
+        # store the last layer's encoder attention weights and decoder cross attention weights
+        self.last_e_attn = None 
+        self.last_d_cross_attn = None
+        self.last_d_attn = None  
         self.d_model = d_model
         self.src_embedding = nn.Embedding(src_vocab_size, d_model)
         self.tgt_embedding = nn.Embedding(tgt_vocab_size, d_model)
@@ -73,13 +76,16 @@ class TransformerSeq2SeqModel(nn.Module):
         tgt_emb = self.pos_decoder(tgt_emb)
 
         memory = self.encoder(src_emb, mask=src_mask, src_key_padding_mask=src_key_padding_mask)
-        # 保存最后一层的注意力权重 
-        # Save the last layer's attention weights
-        self.last_attn = self.encoder.layers[-1].attn_weights
         
         output = self.decoder(tgt_emb, memory, tgt_mask=tgt_mask,
                               tgt_key_padding_mask=tgt_key_padding_mask,
                               memory_key_padding_mask=src_key_padding_mask)
+        
+        # 保存最后一层的注意力权重 
+        # Save the last layer's attention weights
+        self.last_e_attn = self.encoder.layers[-1].attn_weights
+        self.last_d_cross_attn = self.decoder.layers[-1].cross_attn_weights
+        self.last_d_attn = self.decoder.layers[-1].attn_weights
 
         output = self.fc_out(output)  # (batch_size, tgt_seq_len, tgt_vocab_size)
         return output
