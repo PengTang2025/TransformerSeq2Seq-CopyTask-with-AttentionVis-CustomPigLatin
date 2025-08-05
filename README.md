@@ -103,4 +103,6 @@ By feeding six different types of words into the model, we can clearly observe t
   </tr>
 </table>
 
+## 📜 License
 
+MIT License © 2025 Peng Tang
