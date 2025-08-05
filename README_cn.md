@@ -29,7 +29,7 @@
   3. 可见有些 head 在输出末尾几位（添加的a, y词尾）上的 attention 分散分布，在短词上尤为明显；  
   4. 各个head捕捉到了不同区域的规律。  
 - Decoder Self-Attention
-  1. 典型的下三角结构，体现了masked input；  
+  1. 典型的下三角结构，体现了masked input机制；  
   2. 可见明显的对角线/偏置对角线模式；  
   3. 可见有些 head 在输出末尾几位（添加的a, y词尾）上的 attention 分散分布，在短词上尤为明显。   
 - Decoder Cross-Attention
