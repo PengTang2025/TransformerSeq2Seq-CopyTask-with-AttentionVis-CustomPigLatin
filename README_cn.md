@@ -1,3 +1,5 @@
+# Transformer Attention Visualization Experiment — Pig Latin Seq2Seq Task  
+
 ## ✨ 项目简介
 本项目源于我在系统学习 Transformer 结构时的一个观察与改进尝试。
 在整理 transformer_copy 项目过程中，我注意到其中基于教程提供的注意力可视化示例代码，其输出结果往往呈现出“随机图”般的混乱状态，完全无法展现出有意义的语义对齐模式。
