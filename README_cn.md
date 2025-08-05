@@ -22,7 +22,7 @@
 
 ## 💻 可视化解读
 通过将6个不同类型的单词数据输入模型，我们可以清晰地看见注意力的工作机制。  
-6个单词分别是bassinet，bilaminar，muse，oceanwards，postverbal，tromp。    
+6个单词分别是`bassinet`，`bilaminar`，`muse`，`oceanwards`，`postverbal`，`tromp`。    
 - Encoder Self-Attention
   1. 前缀聚焦：一些 head 对前几个 token（尤其是位置 0~2）有偏置，根据不同单词（1位辅音或2位辅音）显示出模型对输入前缀（辅音 cluster）聚焦。  
   2. 对角线模式：一些head出现了对角线/偏置对角线模式；  
@@ -35,9 +35,9 @@
 - Decoder Cross-Attention
   1. 亮点基本位于一条折线形路径，非对角线，而是随单词的开头特征（是否元音，辅音位数）有不同的偏置。
   2. 可见有些 head 在输出末尾几位（添加的a, y词尾）上的 attention 分散分布，在短词上尤为明显；
-  3. 在双辅音开头的tromp上，可见明显的3-4-5-1-2的关注逻辑：上偏移2位的对角线+对起始辅音的重排；  
-     在元音开头的oceanwards上，可见正对角线的一对一关注逻辑；  
-     在单辅音开头的bassinet，bilaminar，muse，postverbal上，可见上偏移1位的对角线。    
+  3. 在双辅音开头的`tromp`上，可见明显的3-4-5-1-2的关注逻辑：上偏移2位的对角线+对起始辅音的重排；  
+     在元音开头的`oceanwards`上，可见正对角线的一对一关注逻辑；  
+     在单辅音开头的`bassinet`，`bilaminar`，`muse`，`postverbal`上，可见上偏移1位的对角线。    
      清晰体现了从输入字符重排到 Pig Latin 输出的映射。  
   
 
