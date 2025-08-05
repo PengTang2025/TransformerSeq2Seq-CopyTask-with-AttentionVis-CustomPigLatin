@@ -1,5 +1,7 @@
 # Transformer Attention Visualization Experiment — Pig Latin Seq2Seq Task
 
+中文版：[README_cn.md](https://github.com/PengTang2025/TransformerSeq2Seq-CopyTask-with-AttentionVis-CustomPigLatin/blob/main/README_cn.md)
+
 ## ✨ Project Overview
 
 This project originated from my attempt to systematically study and improve the understanding of Transformer architecture.
