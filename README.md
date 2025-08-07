@@ -31,6 +31,19 @@ The Attention Heatmaps produced in this project clearly illustrate how the Trans
 - How the decoder manages previously generated tokens via self-attention;
 - How cross-attention in the decoder aligns output tokens with corresponding source tokens.
 
+## 🔬 Experiments Record
+This is a very simple task for the Transformer model. Therefore, early stopping based on validation loss was applied, and training stopped after only 7 epochs.
+The validation loss was already very low from the beginning, mainly because of the difference between `model.train()` and `model.eval()` modes — dropout is enabled during training but disabled during validation, which leads to lower validation loss.
+
+Final test set results:
+```
+Token-level Accuracy: 0.9999
+Sequence-level Accuracy: 0.9995
+BLEU Score: 0.9997
+```
+The training loss curve is shown below:
+<img width="1255" height="933" alt="image" src="https://github.com/user-attachments/assets/f10ccab3-8edf-4c23-aa93-b58b14dd1a0d" />
+
 ## 💻 Visualization Interpretation
 
 By feeding six different types of words into the model, we can clearly observe the attention mechanism at work. The six words are:
