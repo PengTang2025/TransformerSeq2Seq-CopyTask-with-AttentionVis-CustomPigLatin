@@ -22,6 +22,21 @@
 - Decoder 如何通过 Self-Attention 管理已有输出；  
 - Cross-Attention 如何在编码器输出上定位对应的源词。  
 
+## 🔬 试验记录
+鉴于这对transformer来说是一个非常简单的任务，在验证集使用了early stop之后训练了7个epoch就停止了。
+验证集的loss从最初就很低，主要是因为`model.train()` 与 `model.eval()`模式下dropout的开启与否。
+
+最终测试结果：
+```
+Token-level Accuracy: 0.9999
+Sequence-level Accuracy: 0.9995
+BLEU Score: 0.9997
+```
+训练中的损失曲线：
+<div style="text-align: center;">
+  <img alt="image" src="https://github.com/user-attachments/assets/f10ccab3-8edf-4c23-aa93-b58b14dd1a0d" width="80%" />
+</div>
+
 ## 💻 可视化解读
 通过将6个不同类型的单词数据输入模型，我们可以清晰地看见注意力的工作机制。  
 6个单词分别是`bassinet`，`bilaminar`，`muse`，`oceanwards`，`postverbal`，`tromp`。    
