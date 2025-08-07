@@ -42,7 +42,9 @@ Sequence-level Accuracy: 0.9995
 BLEU Score: 0.9997
 ```
 The training loss curve is shown below:
-<img width="1255" height="933" alt="image" src="https://github.com/user-attachments/assets/f10ccab3-8edf-4c23-aa93-b58b14dd1a0d" />
+<div style="text-align: center;">
+  <img alt="image" src="https://github.com/user-attachments/assets/f10ccab3-8edf-4c23-aa93-b58b14dd1a0d" width="80%" />
+</div>
 
 ## 💻 Visualization Interpretation
 
