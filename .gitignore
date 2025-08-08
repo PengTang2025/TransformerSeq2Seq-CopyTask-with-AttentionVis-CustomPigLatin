@@ -5,6 +5,7 @@
 *.pt
 *.pth
 *.npy
+*.txt
 
 # __pycache__ 
 __pycache__/
