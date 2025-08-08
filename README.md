@@ -23,6 +23,17 @@ Using a simple Seq2Seq task converting English to Pig Latin as the experimental 
   - Decoder Self-Attention
   - Decoder Cross-Attention
 
+### PS: A Language game-English to Pig Latin Conversion
+
+The basic rules for converting English words to Pig Latin are as follows:
+1. If a word begins with a consonant or a consonant cluster (one or more consonants before the first vowel), move the consonant(s) to the end of the word and add "ay".  
+   - Example: "pig" → "igpay"  
+   - Example: "glove" → "oveglay"
+2. If a word begins with a vowel (a, e, i, o, u), simply add "yay" to the end of the word.  
+   - Example: "apple" → "appleyay"
+3. Only for this task: Convert all English words to lowercase as the origins before applying the Pig Latin transformation.  
+These rules form the core task that the Transformer model is trained to learn and perform.
+
 ## 🔍 Visualization Overview
 
 The Attention Heatmaps produced in this project clearly illustrate how the Transformer model distributes attention when processing word conversions, providing intuitive insight into its inner workings. For example:
@@ -40,7 +51,8 @@ All source code includes bilingual comments (English + Chinese), so you can easi
 - Python 3.7+
 - PyTorch  
 - NumPy  
-- Matplotlib  
+- Matplotlib
+- nltk (for English word corpus used in preprocessing)
 - **GPU is optional** — the project runs perfectly on CPU, though a GPU will speed up training.
 
 ### 1. Create Environment
@@ -51,7 +63,7 @@ conda activate transformer-demo
 ```
 ### 2. Install Dependencies
 ```
-pip install torch torchvision torchaudio numpy matplotlib
+pip install torch torchvision torchaudio numpy matplotlib nltk
 ```
 ### 3. Train the Model
 To train the model and generate attention visualizations:
