@@ -16,29 +16,89 @@
 - Decoder Self-Attention
 - Decoder Cross-Attention
 
+### PS：语言游戏-英语到Pig Latin的转换
+将英语单词转换为 Pig Latin 的基本规则如下：
+1. 如果单词以辅音或辅音群（第一个元音前有一个或多个辅音）开头，则将辅音移至单词末尾并添加“ay”。  
+例如：“pig”→“igpay”，“glove”→“oveglay”
+2. 如果单词以元音（a、e、i、o、u）开头，只需在单词末尾添加“yay”。  
+例如：“apple”→“appleyay”
+3. 仅适用于此任务：在应用 Pig Latin 转换之前，将所有英文单词转换为小写字母作为原词。  
+这些规则构成了 Transformer 模型训练学习和执行的核心任务。
+
 ## 🔍 可视化概述
 通过本项目展示的 Attention Heatmap，可清晰观察到 Transformer 模型在处理词语转换时的关注分布，从而更直观地理解其内部机制。例如：
 - Encoder 如何聚焦于当前词及上下文；  
 - Decoder 如何通过 Self-Attention 管理已有输出；  
 - Cross-Attention 如何在编码器输出上定位对应的源词。  
 
+## 📄 提示  
+
+代码包含中英双语注释，便于阅读。
+
+## 🚀 使用说明
+
+### 依赖
+- Python 3.7+
+- PyTorch  
+- NumPy  
+- Matplotlib
+- nltk（英语词库）
+- **GPU 非必须**
+
+### 1. 创建环境
+建议新建独立的 Python 环境以避免依赖冲突：
+```bash
+conda create -n transformer-demo python=3.10
+conda activate transformer-demo
+```
+### 2. 安装依赖
+```
+pip install torch torchvision torchaudio numpy matplotlib nltk
+```
+### 3. 开始训练
+运行以下命令即可开始训练模型并生成注意力可视化：
+```
+python train.py
+```
+所有超参数定义在 train.py 文件中 `if __name__ == "__main__":` 代码块内：
+```
+if __name__ == "__main__":
+    # ===== 超参数 Hyperparameters =====
+    batch_size = 64
+    num_epochs = 100
+    lr = 1e-4
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    my_seed = 86
+    torch.manual_seed(my_seed)
+    pad_idx = 0  
+    main(batch_size=batch_size, num_epochs=num_epochs, device=device, lr=lr, pad_idx=pad_idx, my_seed=my_seed)
+```
+PS: 额外还包含注释掉的代码，用于加载已训练模型，以便只做测试和可视化。
+
 ## 🔬 试验记录
-鉴于这对transformer来说是一个非常简单的任务，在验证集使用了early stop之后训练了7个epoch就停止了。
+鉴于这对transformer来说是一个非常简单的任务，在验证集使用了early stop的情况下，不到10个epoch就停止了。
 验证集的loss从最初就很低，主要是因为`model.train()` 与 `model.eval()`模式下dropout的开启与否。
 
 最终测试结果：
 ```
+# with seed 42
 Token-level Accuracy: 0.9999
 Sequence-level Accuracy: 0.9995
 BLEU Score: 0.9997
+# with seed 86
+Token-level Accuracy: 0.9997
+Sequence-level Accuracy: 0.9985
+BLEU Score: 0.9994
 ```
-训练中的损失曲线：
-<div style="text-align: center;">
-  <img alt="image" src="https://github.com/user-attachments/assets/f10ccab3-8edf-4c23-aa93-b58b14dd1a0d" width="80%" />
+训练中的损失曲线，左边是seed 42时，右边是seed 86时：
 </div>
+   <p align="center">
+     <img src="https://github.com/user-attachments/assets/f10ccab3-8edf-4c23-aa93-b58b14dd1a0d" width="45%"/>
+     <img src="https://github.com/user-attachments/assets/0a137fb8-7a0f-4476-b2f0-511e122e2aea" width="45%"/>
+   </p>
 
 ## 💻 可视化解读
-通过将6个不同类型的单词数据输入模型，我们可以清晰地看见注意力的工作机制。  
+通过将6个不同类型的单词数据输入模型（采用seed 86的结果），我们可以清晰地看见注意力的工作机制。  
 6个单词分别是`bassinet`，`bilaminar`，`muse`，`oceanwards`，`postverbal`，`tromp`。    
 - Encoder Self-Attention
   1. 前缀聚焦：一些 head 对前几个 token（尤其是位置 0~2）有偏置，根据不同单词（1位辅音或2位辅音）显示出模型对输入前缀（辅音 cluster）聚焦。  
