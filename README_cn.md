@@ -73,7 +73,8 @@ if __name__ == "__main__":
     pad_idx = 0  
     main(batch_size=batch_size, num_epochs=num_epochs, device=device, lr=lr, pad_idx=pad_idx, my_seed=my_seed)
 ```
-PS: 额外还包含注释掉的代码，用于加载已训练模型，以便只做测试和可视化。
+PS: 额外还包含注释掉的代码，用于**加载已训练模型**，以便只做测试和可视化。  
+PPS：如果想得到**可视化解读**同款组合图，可以使用提供的`merge_image.py`。
 
 ## 🔬 试验记录
 鉴于这对transformer来说是一个非常简单的任务，在验证集使用了early stop的情况下，不到10个epoch就停止了。
