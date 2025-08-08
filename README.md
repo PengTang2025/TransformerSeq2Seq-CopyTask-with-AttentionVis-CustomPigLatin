@@ -83,7 +83,8 @@ if __name__ == "__main__":
     pad_idx = 0  
     main(batch_size=batch_size, num_epochs=num_epochs, device=device, lr=lr, pad_idx=pad_idx, my_seed=my_seed)
 ```
-The script also contains commented-out code for **loading a trained model** to run evaluation and generate visualizations without retraining.
+The script also contains commented-out code for **loading a trained model** to run evaluation and generate visualizations without retraining.  
+To generate the combined attention heatmap as shown in **Visualization Interpretation**, please use the provided `merge_image.py`.
 
 ## 🔬 Experiments Record
 This is a very simple task for the Transformer model. Therefore, early stopping based on validation loss was applied, and training stopped within 10 epochs.
