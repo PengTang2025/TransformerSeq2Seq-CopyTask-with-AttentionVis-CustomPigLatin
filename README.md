@@ -31,24 +31,73 @@ The Attention Heatmaps produced in this project clearly illustrate how the Trans
 - How the decoder manages previously generated tokens via self-attention;
 - How cross-attention in the decoder aligns output tokens with corresponding source tokens.
 
+## 📄 Notes
+All source code includes bilingual comments (English + Chinese), so you can easily follow the logic even if you are more comfortable with one language.
+
+## 🚀 Usage
+
+### Requirements
+- Python 3.7+
+- PyTorch  
+- NumPy  
+- Matplotlib  
+- **GPU is optional** — the project runs perfectly on CPU, though a GPU will speed up training.
+
+### 1. Create Environment
+It is recommended to create a dedicated Python environment to avoid dependency conflicts:
+```bash
+conda create -n transformer-demo python=3.10
+conda activate transformer-demo
+```
+### 2. Install Dependencies
+```
+pip install torch torchvision torchaudio numpy matplotlib
+```
+### 3. Train the Model
+To train the model and generate attention visualizations:
+```
+python train.py
+```
+All hyperparameters can be modified in the `if __name__ == "__main__":` block of train.py:
+```
+if __name__ == "__main__":
+    # ===== 超参数 Hyperparameters =====
+    batch_size = 64
+    num_epochs = 100
+    lr = 1e-4
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    my_seed = 86
+    torch.manual_seed(my_seed)
+    pad_idx = 0  
+    main(batch_size=batch_size, num_epochs=num_epochs, device=device, lr=lr, pad_idx=pad_idx, my_seed=my_seed)
+```
+The script also contains commented-out code for **loading a trained model** to run evaluation and generate visualizations without retraining.
+
 ## 🔬 Experiments Record
-This is a very simple task for the Transformer model. Therefore, early stopping based on validation loss was applied, and training stopped after only 7 epochs.
+This is a very simple task for the Transformer model. Therefore, early stopping based on validation loss was applied, and training stopped within 10 epochs.
 The validation loss was already very low from the beginning, mainly because of the difference between `model.train()` and `model.eval()` modes — dropout is enabled during training but disabled during validation, which leads to lower validation loss.
 
 Final test set results:
 ```
+# with seed 42
 Token-level Accuracy: 0.9999
 Sequence-level Accuracy: 0.9995
 BLEU Score: 0.9997
+# with seed 86
+Token-level Accuracy: 0.9997
+Sequence-level Accuracy: 0.9985
+BLEU Score: 0.9994
 ```
-The training loss curve is shown below:
-<div style="text-align: center;">
-  <img alt="image" src="https://github.com/user-attachments/assets/f10ccab3-8edf-4c23-aa93-b58b14dd1a0d" width="80%" />
+The training loss curve is shown below, left is with seed 42, right is with seed 86:
 </div>
-
+   <p align="center">
+     <img src="https://github.com/user-attachments/assets/f10ccab3-8edf-4c23-aa93-b58b14dd1a0d" width="45%"/>
+     <img src="https://github.com/user-attachments/assets/0a137fb8-7a0f-4476-b2f0-511e122e2aea" width="45%"/>
+   </p>
+     
 ## 💻 Visualization Interpretation
 
-By feeding six different types of words into the model, we can clearly observe the attention mechanism at work. The six words are:
+By feeding six different types of words into the model (the mentioned seed 86 version is used here), we can clearly observe the attention mechanism at work. The six words are:
 
 `bassinet`, `bilaminar`, `muse`, `oceanwards`, `postverbal`, and `tromp`.
 
