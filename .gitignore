@@ -1,4 +1,12 @@
+# customization
+
+# png、pt、pth、npy
 *.png
 *.pt
 *.pth
 *.npy
+
+# __pycache__ 
+__pycache__/
+
+# local test files
