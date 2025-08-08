@@ -115,9 +115,9 @@ def test(model, dataloader, device, id2char, pad_idx, bos_idx, eos_idx, max_len=
                 pred_str = ''.join([id2char[c] for c in pred_seq])
                 target_str = ''.join([id2char[c] for c in target_seq])
                 print("Examples:")
-                print(f"[{j}] Source: {''.join([id2char[c] for c in src[j].tolist() if c != pad_idx])}")
-                print(f"[{j}] Target: {target_str}")
-                print(f"[{j}] Output: {pred_str}")
+                print(f"[{j+1}] Source: {''.join([id2char[c] for c in src[j].tolist() if c != pad_idx])}")
+                print(f"[{j+1}] Target: {target_str}")
+                print(f"[{j+1}] Output: {pred_str}")
                 print()
 
     token_acc = correct_tokens / total_tokens if total_tokens > 0 else 0.0
@@ -189,8 +189,8 @@ def main(batch_size, num_epochs, device, my_seed, lr = 1e-4, pad_idx = 0):
     # 取出单条样本进行可视化
     # get a single sample for visualization
     for i in range(6):
-        sample_src, sample_input, sample_target = test_loader.dataset[i]  # 第i个样本
-        # 获取sample_src的原始文本
+        sample_src, sample_input, sample_target = test_loader.dataset[i]  # 第i个样本 the i-th sample
+        # 获取sample_src的原始文本 obtain the original text of sample_src
         sample_src_text = ''.join([train_loader.dataset.dataset.id2char[c] for c in sample_src.tolist() if c != pad_idx])
         sample_src = sample_src.unsqueeze(0).to(device)
         sample_input = sample_input.unsqueeze(0).to(device)
@@ -206,42 +206,44 @@ if __name__ == "__main__":
     my_seed = 86
     torch.manual_seed(my_seed)
     pad_idx = 0  
-    # main(batch_size=batch_size, num_epochs=num_epochs, device=device, lr=lr, pad_idx=pad_idx, my_seed=my_seed)
-    
+    main(batch_size=batch_size, num_epochs=num_epochs, device=device, lr=lr, pad_idx=pad_idx, my_seed=my_seed)
     
     # ===== 仅测试 test only =====
-    # train_loss_history = np.load("train_loss_history.npy")
-    # val_loss_history = np.load("train_loss_history.npy")
+    
+    # load_path = "20250731/"
+    
+    # train_loss_history = np.load(load_path + "train_loss_history.npy")
+    # val_loss_history = np.load(load_path + "val_loss_history.npy")
     # final_epoch = len(train_loss_history)
     # plot_loss(train_loss_history, val_loss_history, final_epoch, save_path="checkpoints")
-    train_loader, val_loader, test_loader = dataset_generator(batch_size=batch_size)
-    vocab_size = train_loader.dataset.dataset.vocab_size
-    model = TransformerSeq2SeqModel(
-        src_vocab_size=vocab_size, 
-        tgt_vocab_size=vocab_size,
-        d_model=128,
-        nhead=8,
-        num_encoder_layers=3,
-        num_decoder_layers=3,
-        dim_feedforward=512,
-        dropout=0.1, 
-        max_seq_len=20,
-    ).to(device)
-    model.load_state_dict(torch.load("20250731/model_epoch8.pth", map_location=device))
-    model.eval()
-    save_dir = "test_visualization"
-    os.makedirs(save_dir, exist_ok=True)
-    for i in range(6):
-        sample_src, sample_input, sample_target = test_loader.dataset[i]  # 第i个样本
-        # sample_src, sample_input, sample_target = next(iter(test_loader))
-        # 获取sample_src的原始文本
-        sample_src_text = ''.join([train_loader.dataset.dataset.id2char[c] for c in sample_src.tolist() if c != pad_idx])
-        sample_src = sample_src.unsqueeze(0).to(device)
-        sample_input = sample_input.unsqueeze(0).to(device)
-        plot_attention_weights(model, sample_src, sample_input, save_dir, sample_src_text)
-        print(f"Visualized attention weights for sample {i+1}: {sample_src_text}")
+    
+    # train_loader, val_loader, test_loader = dataset_generator(batch_size=batch_size)
+    # vocab_size = train_loader.dataset.dataset.vocab_size
+    # model = TransformerSeq2SeqModel(
+    #     src_vocab_size=vocab_size, 
+    #     tgt_vocab_size=vocab_size,
+    #     d_model=128,
+    #     nhead=8,
+    #     num_encoder_layers=3,
+    #     num_decoder_layers=3,
+    #     dim_feedforward=512,
+    #     dropout=0.1, 
+    #     max_seq_len=20,
+    # ).to(device)
+    # model.load_state_dict(torch.load(load_path + "model_epoch8.pth", map_location=device))
+    # model.eval()
+    
+    # save_dir = "test_visualization"
+    # os.makedirs(save_dir, exist_ok=True)
+    # for i in range(6):
+    #     sample_src, sample_input, sample_target = test_loader.dataset[i]  # 第i个样本 the i-th sample
+    #     # 获取sample_src的原始文本 obtain the original text of sample_src
+    #     sample_src_text = ''.join([train_loader.dataset.dataset.id2char[c] for c in sample_src.tolist() if c != pad_idx])
+    #     sample_src = sample_src.unsqueeze(0).to(device)
+    #     sample_input = sample_input.unsqueeze(0).to(device)
+    #     plot_attention_weights(model, sample_src, sample_input, save_dir, sample_src_text)
+    #     print(f"Visualized attention weights for sample {i+1}: {sample_src_text}")
 
-    # plot_embeddings(model, vocab_size, save_path="checkpoints")
     # bos_idx = train_loader.dataset.dataset.char2id[train_loader.dataset.dataset.bos_token]
     # eos_idx = train_loader.dataset.dataset.char2id[train_loader.dataset.dataset.eos_token]
     # test(model, test_loader, device, train_loader.dataset.dataset.id2char, pad_idx, bos_idx, eos_idx)
